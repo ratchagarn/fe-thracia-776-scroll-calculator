@@ -1,21 +1,34 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import classNames from 'classnames'
 
 import scroll from '../scroll.json'
+
+const STORAGE_VERSION = 1
+
+const STAT = ['HP', 'STR', 'MAG', 'SKL', 'SPD', 'LCK', 'DEF', 'CON', 'MOV']
+const MAXIMUM_SELECTED_SCROLL = 7
+const storageName = {
+  version: 'fe-thracia-776-scroll-calculator:version',
+  selectedScroll: 'fe-thracia-776-scroll-calculator:selectedScroll',
+  charGrowthRate: 'fe-thracia-776-scroll-calculator:charGrowthRate',
+}
 
 const scrollList = Object.keys(scroll).map((name) => ({
   name,
   ...scroll[name],
 }))
 
-const STAT = ['HP', 'STR', 'MAG', 'SKL', 'SPD', 'LCK', 'DEF', 'CON', 'MOV']
-const MAXIMUM_SELECTED_SCROLL = 7
-
 function ScrollCalculator() {
-  const [selectedScroll, setSelectedScroll] = useState({})
+  const [selectedScroll, setSelectedScroll] = useState(
+    getInitialSelectedScroll()
+  )
   const [charGrowthRate, setCharGrowthRate] = useState(
     getInitialCharacterGrowthRate()
   )
+
+  useEffect(() => {
+    window.localStorage.setItem(storageName.version, STORAGE_VERSION)
+  }, [])
 
   const countSelectedScroll = Object.keys(selectedScroll).length
   const charGrowthRateResult = calculateCharGrowthRateResult(
@@ -83,6 +96,7 @@ function ScrollCalculator() {
                   <input
                     type="checkbox"
                     onChange={handleOnSelectScroll(scroll)}
+                    checked={isSelected}
                     disabled={
                       !isSelected &&
                       countSelectedScroll >= MAXIMUM_SELECTED_SCROLL
@@ -116,7 +130,14 @@ function ScrollCalculator() {
                 />
               </td>
             ))}
-            <td>&nbsp;</td>
+            <td className="text-center">
+              <span
+                className="cursor-pointer"
+                onClick={() => setCharGrowthRate({})}
+              >
+                ✖
+              </span>
+            </td>
           </tr>
           <tr>
             <td className="p-2">Total</td>
@@ -135,6 +156,8 @@ function ScrollCalculator() {
   function handleOnSelectScroll(scrollData) {
     return ({ target: checked }) => {
       setSelectedScroll((state) => {
+        let result = { ...state }
+
         if (checked && state[scrollData.name]) {
           const newState = {}
 
@@ -144,33 +167,68 @@ function ScrollCalculator() {
             }
           }
 
-          return newState
+          result = newState
+          window.localStorage.setItem(
+            storageName.selectedScroll,
+            JSON.stringify(result)
+          )
         } else if (checked) {
-          return {
+          result = {
             ...state,
             [scrollData.name]: scrollData,
           }
+
+          window.localStorage.setItem(
+            storageName.selectedScroll,
+            JSON.stringify(result)
+          )
         }
+
+        return result
       })
     }
   }
 
   function handleOnInputCharacterGrowthRateChange(statName) {
     return ({ target: { value } }) => {
-      setCharGrowthRate((state) => ({
-        ...state,
-        [statName]: adjustCharacterGrowthRate(value),
-      }))
+      setCharGrowthRate((state) => {
+        const result = {
+          ...state,
+          [statName]: adjustCharacterGrowthRate(value),
+        }
+
+        window.localStorage.setItem(
+          storageName.charGrowthRate,
+          JSON.stringify(result)
+        )
+
+        return result
+      })
     }
   }
 }
 
 export default ScrollCalculator
 
-function getInitialCharacterGrowthRate() {
-  const result = {}
+function getInitialSelectedScroll() {
+  const storageData = window.localStorage.getItem(storageName.selectedScroll)
 
-  STAT.forEach((name) => (result[name] = 0))
+  const result = storageData ? JSON.parse(storageData) : {}
+
+  return result
+}
+
+function getInitialCharacterGrowthRate() {
+  let result = {}
+  const storageData = window.localStorage.getItem(storageName.charGrowthRate)
+
+  if (storageData) {
+    result = JSON.parse(storageData)
+  }
+
+  STAT.forEach((name) => {
+    result[name] = /\d/.test(result[name]) ? Number(result[name]) : 0
+  })
 
   return result
 }
@@ -192,13 +250,21 @@ function adjustCharacterGrowthRate(rate) {
 }
 
 function calculateCharGrowthRateResult(selectedScroll, charGrowthRate) {
-  const result = { ...charGrowthRate }
+  const result = {}
+
+  STAT.forEach((name) => {
+    result[name] = /\d/.test(charGrowthRate[name])
+      ? Number(charGrowthRate[name])
+      : 0
+  })
 
   for (const scrollName in selectedScroll) {
     const growthRate = selectedScroll[scrollName].growthRate
 
     for (const statName in growthRate) {
-      result[statName] += growthRate[statName]
+      result[statName] += /\d/.test(growthRate[statName])
+        ? Number(growthRate[statName])
+        : 0
     }
   }
 

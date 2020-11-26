@@ -6,7 +6,7 @@
     "build:tailwind": "tailwindcss build src/tailwind.config.css -o public/tailwind.css",
     "prestart": "npm run build:tailwind",
     "prebuild": "npm run build:tailwind",
-    "start": "react-scripts start",
+    "start": "PORT=3111 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "deploy": "yarn build && gh-pages -d build",
