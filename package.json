@@ -1,0 +1,60 @@
+{
+  "name": "fe-thracia-776-scroll-calculator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build:tailwind": "tailwindcss build src/tailwind.config.css -o src/tailwind.css",
+    "prestart": "npm run build:tailwind",
+    "prebuild": "npm run build:tailwind",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "deploy": "yarn build && gh-pages -d build"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "autoprefixer": "^10.0.2",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.2",
+    "postcss": "^8.1.10",
+    "prettier": "^2.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.1",
+    "tailwindcss": "^2.0.1",
+    "web-vitals": "^0.2.4"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  }
+}
