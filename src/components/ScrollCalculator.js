@@ -13,9 +13,15 @@ const MAXIMUM_SELECTED_SCROLL = 7
 
 function ScrollCalculator() {
   const [selectedScroll, setSelectedScroll] = useState({})
-  const [charGrowthRate, setCharGrowthRate] = useState({})
+  const [charGrowthRate, setCharGrowthRate] = useState(
+    getInitialCharacterGrowthRate()
+  )
 
   const countSelectedScroll = Object.keys(selectedScroll).length
+  const charGrowthRateResult = calculateCharGrowthRateResult(
+    selectedScroll,
+    charGrowthRate
+  )
 
   return (
     <div className="container mx-auto p-2">
@@ -116,7 +122,7 @@ function ScrollCalculator() {
             <td className="p-2">Total</td>
             {STAT.map((name) => (
               <td key={name} className="p-2 text-right">
-                {sumGrowthRate(name, charGrowthRate, selectedScroll)}
+                {charGrowthRateResult[name]}
               </td>
             ))}
             <td>&nbsp;</td>
@@ -161,6 +167,14 @@ function ScrollCalculator() {
 
 export default ScrollCalculator
 
+function getInitialCharacterGrowthRate() {
+  const result = {}
+
+  STAT.forEach((name) => (result[name] = 0))
+
+  return result
+}
+
 function adjustCharacterGrowthRate(rate) {
   if (!/\d/.test(rate)) {
     return 0
@@ -177,17 +191,14 @@ function adjustCharacterGrowthRate(rate) {
   return result
 }
 
-function sumGrowthRate(statName, charGrowthRate, selectedScroll) {
-  const baseGrowthRate = charGrowthRate[statName]
-  let result = baseGrowthRate || 0
+function calculateCharGrowthRateResult(selectedScroll, charGrowthRate) {
+  const result = { ...charGrowthRate }
 
   for (const scrollName in selectedScroll) {
-    const scrollRate = selectedScroll[scrollName].growthRate[statName]
+    const growthRate = selectedScroll[scrollName].growthRate
 
-    if (scrollRate) {
-      result += scrollRate
-
-      break
+    for (const statName in growthRate) {
+      result[statName] += growthRate[statName]
     }
   }
 
