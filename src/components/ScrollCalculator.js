@@ -141,11 +141,24 @@ function ScrollCalculator() {
           </tr>
           <tr>
             <td className="p-2">Total</td>
-            {STAT.map((name) => (
-              <td key={name} className="p-2 text-right">
-                {charGrowthRateResult[name]}
-              </td>
-            ))}
+            {STAT.map((name) => {
+              const base = charGrowthRate[name]
+              const result = charGrowthRateResult[name]
+
+              return (
+                <td key={name} className="p-2 text-right">
+                  <span
+                    className={classNames({
+                      'text-red-600': result < base,
+                      'text-green-600': result > base,
+                      'font-bold': result !== base,
+                    })}
+                  >
+                    {result}
+                  </span>
+                </td>
+              )
+            })}
             <td>&nbsp;</td>
           </tr>
         </tbody>
