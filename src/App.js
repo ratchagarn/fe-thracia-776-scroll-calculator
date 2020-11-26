@@ -1,7 +1,9 @@
 import './tailwind.css'
 
+import ScrollCalculator from './components/ScrollCalculator'
+
 function App() {
-  return <h1>111</h1>
+  return <ScrollCalculator />
 }
 
 export default App

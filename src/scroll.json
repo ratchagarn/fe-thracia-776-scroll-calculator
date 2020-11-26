@@ -1,0 +1,119 @@
+{
+  "Baldr": {
+    "growthRate": {
+      "HP": 5,
+      "STR": 5,
+      "MAG": 0,
+      "SKL": 5,
+      "SPD": 5,
+      "LCK": 5,
+      "DEF": 5,
+      "CON": 0,
+      "MOV": 0
+    }
+  },
+  "Ced": {
+    "growthRate": {
+      "HP": -10,
+      "STR": 0,
+      "MAG": 10,
+      "SKL": 0,
+      "SPD": 30,
+      "LCK": 0,
+      "DEF": 0,
+      "CON": 0,
+      "MOV": 0
+    }
+  },
+  "Od": {
+    "growthRate": {
+      "HP": 0,
+      "STR": 0,
+      "MAG": 0,
+      "SKL": 30,
+      "SPD": 0,
+      "LCK": 0,
+      "DEF": 0,
+      "CON": 0,
+      "MOV": 0
+    }
+  },
+  "Heir": {
+    "growthRate": {
+      "HP": 10,
+      "STR": 10,
+      "MAG": 0,
+      "SKL": -10,
+      "SPD": 0,
+      "LCK": 0,
+      "DEF": 10,
+      "CON": 10,
+      "MOV": 0
+    }
+  },
+  "Fjalar": {
+    "growthRate": {
+      "HP": 0,
+      "STR": 5,
+      "MAG": 5,
+      "SKL": 10,
+      "SPD": 10,
+      "LCK": 0,
+      "DEF": 0,
+      "CON": 0,
+      "MOV": 0
+    }
+  },
+  "Heim": {
+    "growthRate": {
+      "HP": 0,
+      "STR": 0,
+      "MAG": 30,
+      "SKL": 0,
+      "SPD": 0,
+      "LCK": 10,
+      "DEF": -10,
+      "CON": 0,
+      "MOV": 0
+    }
+  },
+  "Dain": {
+    "growthRate": {
+      "HP": 0,
+      "STR": 5,
+      "MAG": 0,
+      "SKL": 0,
+      "SPD": -10,
+      "LCK": 0,
+      "DEF": 30,
+      "CON": 0,
+      "MOV": 5
+    }
+  },
+  "Ullur": {
+    "growthRate": {
+      "HP": 0,
+      "STR": 0,
+      "MAG": 0,
+      "SKL": 10,
+      "SPD": 10,
+      "LCK": 10,
+      "DEF": 0,
+      "CON": 0,
+      "MOV": 0
+    }
+  },
+  "Bragi": {
+    "growthRate": {
+      "HP": 10,
+      "STR": 0,
+      "MAG": 10,
+      "SKL": 0,
+      "SPD": 0,
+      "LCK": 30,
+      "DEF": 0,
+      "CON": 0,
+      "MOV": 0
+    }
+  }
+}
