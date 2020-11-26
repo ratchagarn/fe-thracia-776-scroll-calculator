@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build:tailwind": "tailwindcss build src/tailwind.config.css -o src/tailwind.css",
+    "build:tailwind": "tailwindcss build src/tailwind.config.css -o public/tailwind.css",
     "prestart": "npm run build:tailwind",
     "prebuild": "npm run build:tailwind",
     "start": "react-scripts start",
