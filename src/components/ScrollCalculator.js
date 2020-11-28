@@ -92,8 +92,10 @@ function ScrollCalculator() {
                     <td
                       key={name}
                       className={classNames('p-2 text-right', {
-                        'bg-red-200': growthRate < 0,
-                        'bg-green-200': growthRate > 0,
+                        'text-gray-300': growthRate === 0,
+                        'bg-red-600 text-white font-bold': growthRate < 0,
+                        'bg-green-200 font-bold': growthRate > 0,
+                        'bg-green-600 text-white font-bold': growthRate > 10,
                       })}
                     >
                       {growthRate}
