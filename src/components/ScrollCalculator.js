@@ -5,7 +5,7 @@ import scroll from '../scroll.json'
 
 const STORAGE_VERSION = 1
 
-const STAT = ['HP', 'STR', 'MAG', 'SKL', 'SPD', 'LCK', 'DEF', 'CON', 'MOV']
+const STAT_LIST = ['HP', 'STR', 'MAG', 'SKL', 'SPD', 'LCK', 'DEF', 'CON', 'MOV']
 const MAXIMUM_SELECTED_SCROLL = 7
 const storageName = {
   version: 'fe-thracia-776-scroll-calculator:version',
@@ -57,7 +57,7 @@ function ScrollCalculator() {
         <thead>
           <tr className="bg-gray-200">
             <th className="p-2 w-52 text-left">Scroll Name</th>
-            {STAT.map((name) => (
+            {STAT_LIST.map((name) => (
               <th key={name} className="p-2 text-right">
                 {name}
               </th>
@@ -78,8 +78,8 @@ function ScrollCalculator() {
                 })}
               >
                 <td className="p-2">{scroll.name}</td>
-                {STAT.map((name) => {
-                  const growthRate = scroll.growthRate[name]
+                {STAT_LIST.map((name) => {
+                  const growthRate = scroll[name]
                   return (
                     <td
                       key={name}
@@ -109,7 +109,7 @@ function ScrollCalculator() {
 
           <tr className="bg-gray-200">
             <td className="p-2"></td>
-            {STAT.map((name) => (
+            {STAT_LIST.map((name) => (
               <td key={name} className="p-2 text-right font-bold">
                 {name}
               </td>
@@ -119,7 +119,7 @@ function ScrollCalculator() {
 
           <tr>
             <td className="p-2">Character Growth Rate</td>
-            {STAT.map((name) => (
+            {STAT_LIST.map((name) => (
               <td key={name} className="py-2">
                 <input
                   type="text"
@@ -133,7 +133,11 @@ function ScrollCalculator() {
             <td className="text-center">
               <span
                 className="cursor-pointer"
-                onClick={() => setCharGrowthRate({})}
+                onClick={() =>
+                  window.confirm(
+                    'Do you want to reset Character Growth Rate?'
+                  ) && setCharGrowthRate({})
+                }
               >
                 ✖
               </span>
@@ -141,7 +145,7 @@ function ScrollCalculator() {
           </tr>
           <tr>
             <td className="p-2">Total</td>
-            {STAT.map((name) => {
+            {STAT_LIST.map((name) => {
               const base = charGrowthRate[name]
               const result = charGrowthRateResult[name]
 
@@ -239,7 +243,7 @@ function getInitialCharacterGrowthRate() {
     result = JSON.parse(storageData)
   }
 
-  STAT.forEach((name) => {
+  STAT_LIST.forEach((name) => {
     result[name] = /\d/.test(result[name]) ? Number(result[name]) : 0
   })
 
@@ -265,14 +269,14 @@ function adjustCharacterGrowthRate(rate) {
 function calculateCharGrowthRateResult(selectedScroll, charGrowthRate) {
   const result = {}
 
-  STAT.forEach((name) => {
+  STAT_LIST.forEach((name) => {
     result[name] = /\d/.test(charGrowthRate[name])
       ? Number(charGrowthRate[name])
       : 0
   })
 
   for (const scrollName in selectedScroll) {
-    const growthRate = selectedScroll[scrollName].growthRate
+    const growthRate = selectedScroll[scrollName]
 
     for (const statName in growthRate) {
       result[statName] += /\d/.test(growthRate[statName])
