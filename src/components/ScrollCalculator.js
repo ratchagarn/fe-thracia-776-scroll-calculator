@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import classNames from 'classnames'
 
+import ScrollImage from './ScrollImage'
+
 import scroll from '../scroll.json'
 
 const STORAGE_VERSION = 1
@@ -81,12 +83,7 @@ function ScrollCalculator() {
                 })}
               >
                 <td className="p-2" style={{ width: 32 }}>
-                  <img
-                    src={`images/${scroll.name}_Scroll.png`}
-                    alt={scroll.name}
-                    className="block"
-                    style={{ maxWidth: 'none', width: 24 }}
-                  />
+                  <ScrollImage name={scroll.name} />
                 </td>
                 <td className="p-2 font-bold">{scroll.name}</td>
                 {STAT_LIST.map((name) => {
