@@ -43,7 +43,7 @@ function ScrollCalculator() {
       </h1>
       <hr />
 
-      <table className="mt-4">
+      <table className="mt-4 border-2 rounded-sm border-gray-100">
         <caption>
           Selected scroll count:
           <span
@@ -57,7 +57,7 @@ function ScrollCalculator() {
         </caption>
         <thead>
           <tr className="bg-gray-200">
-            <th className="p-2 w-52 text-left" colSpan={2}>
+            <th className="p-2 text-left" colSpan={2} style={{ width: 200 }}>
               Scroll Name
             </th>
             {STAT_LIST.map((name) => (
@@ -88,7 +88,7 @@ function ScrollCalculator() {
                     style={{ maxWidth: 'none', width: 24 }}
                   />
                 </td>
-                <td className="p-2">{scroll.name}</td>
+                <td className="p-2 font-bold">{scroll.name}</td>
                 {STAT_LIST.map((name) => {
                   const growthRate = scroll[name]
                   return (
@@ -129,7 +129,7 @@ function ScrollCalculator() {
           </tr>
 
           <tr>
-            <td className="p-2 text-sm" colSpan={2}>
+            <td className="p-2 text-sm font-bold" colSpan={2}>
               Character Growth Rate
             </td>
             {STAT_LIST.map((name) => (
@@ -157,8 +157,8 @@ function ScrollCalculator() {
             </td>
           </tr>
           <tr>
-            <td className="p-2" colSpan={2}>
-              Total
+            <td className="p-2 font-bold" colSpan={2}>
+              TOTAL
             </td>
             {STAT_LIST.map((name) => {
               const base = charGrowthRate[name]
