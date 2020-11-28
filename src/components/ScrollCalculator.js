@@ -135,8 +135,9 @@ function ScrollCalculator() {
                   type="text"
                   className="w-16 border-2 border-gray-200 rounded-sm px-2 py-1 text-right"
                   maxLength="3"
-                  value={charGrowthRate[name] ? charGrowthRate[name] : 0}
+                  defaultValue={charGrowthRate[name] ? charGrowthRate[name] : 0}
                   onChange={handleOnInputCharacterGrowthRateChange(name)}
+                  onKeyPress={handleOnInputCharacterGrowthRatePress}
                 />
               </td>
             ))}
@@ -218,6 +219,14 @@ function ScrollCalculator() {
     }
   }
 
+  function handleOnInputCharacterGrowthRatePress(event) {
+    const char = String.fromCharCode(event.charCode)
+
+    if (!isNumber(char)) {
+      event.preventDefault()
+    }
+  }
+
   function handleOnInputCharacterGrowthRateChange(statName) {
     return ({ target: { value } }) => {
       setCharGrowthRate((state) => {
@@ -256,14 +265,14 @@ function getInitialCharacterGrowthRate() {
   }
 
   STAT_LIST.forEach((name) => {
-    result[name] = /\d/.test(result[name]) ? Number(result[name]) : 0
+    result[name] = isNumber(result[name]) ? Number(result[name]) : 0
   })
 
   return result
 }
 
 function adjustCharacterGrowthRate(rate) {
-  if (!/\d/.test(rate)) {
+  if (!isNumber(rate)) {
     return 0
   }
 
@@ -282,7 +291,7 @@ function calculateCharGrowthRateResult(selectedScroll, charGrowthRate) {
   const result = {}
 
   STAT_LIST.forEach((name) => {
-    result[name] = /\d/.test(charGrowthRate[name])
+    result[name] = isNumber(charGrowthRate[name])
       ? Number(charGrowthRate[name])
       : 0
   })
@@ -291,11 +300,15 @@ function calculateCharGrowthRateResult(selectedScroll, charGrowthRate) {
     const growthRate = selectedScroll[scrollName]
 
     for (const statName in growthRate) {
-      result[statName] += /\d/.test(growthRate[statName])
+      result[statName] += isNumber(growthRate[statName])
         ? Number(growthRate[statName])
         : 0
     }
   }
 
   return result
+}
+
+function isNumber(v) {
+  return /^[0-9]+$/.test(v)
 }
