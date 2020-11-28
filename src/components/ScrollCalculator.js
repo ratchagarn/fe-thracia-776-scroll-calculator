@@ -38,11 +38,12 @@ function ScrollCalculator() {
 
   return (
     <div className="container mx-auto p-2">
-      <h1 className="text-xl mb-4">
+      <h1 className="font-bold text-xl mb-4">
         Fire Emblem Thracia 776 Scroll Calculator
       </h1>
+      <hr />
 
-      <table>
+      <table className="mt-4">
         <caption>
           Selected scroll count:
           <span
@@ -56,7 +57,9 @@ function ScrollCalculator() {
         </caption>
         <thead>
           <tr className="bg-gray-200">
-            <th className="p-2 w-52 text-left">Scroll Name</th>
+            <th className="p-2 w-52 text-left" colSpan={2}>
+              Scroll Name
+            </th>
             {STAT_LIST.map((name) => (
               <th key={name} className="p-2 text-right">
                 {name}
@@ -77,6 +80,14 @@ function ScrollCalculator() {
                   'bg-yellow-100': isSelected,
                 })}
               >
+                <td className="p-2" style={{ width: 32 }}>
+                  <img
+                    src={`images/${scroll.name}_Scroll.png`}
+                    alt={scroll.name}
+                    className="block"
+                    style={{ maxWidth: 'none', width: 24 }}
+                  />
+                </td>
                 <td className="p-2">{scroll.name}</td>
                 {STAT_LIST.map((name) => {
                   const growthRate = scroll[name]
@@ -108,7 +119,7 @@ function ScrollCalculator() {
           })}
 
           <tr className="bg-gray-200">
-            <td className="p-2"></td>
+            <td className="p-2" colSpan={2}></td>
             {STAT_LIST.map((name) => (
               <td key={name} className="p-2 text-right font-bold">
                 {name}
@@ -118,7 +129,9 @@ function ScrollCalculator() {
           </tr>
 
           <tr>
-            <td className="p-2">Character Growth Rate</td>
+            <td className="p-2 text-sm" colSpan={2}>
+              Character Growth Rate
+            </td>
             {STAT_LIST.map((name) => (
               <td key={name} className="py-2">
                 <input
@@ -144,7 +157,9 @@ function ScrollCalculator() {
             </td>
           </tr>
           <tr>
-            <td className="p-2">Total</td>
+            <td className="p-2" colSpan={2}>
+              Total
+            </td>
             {STAT_LIST.map((name) => {
               const base = charGrowthRate[name]
               const result = charGrowthRateResult[name]

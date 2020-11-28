@@ -1,4 +1,14 @@
+ิbody {
+  font-family: 'Nunito', Arial, sans-serif;
+}
+
+input,
+button {
+  font-family: 'Nunito', Arial, sans-serif;
+}
+
 table th,
 td {
   border: 2px solid white;
+  font-family: 'Nunito', Arial, sans-serif;
 }
