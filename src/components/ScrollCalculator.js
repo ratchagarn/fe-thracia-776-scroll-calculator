@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 
 import ScrollImage from './ScrollImage'
@@ -21,6 +21,8 @@ const scrollList = Object.keys(scroll).map((name) => ({
 }))
 
 function ScrollCalculator() {
+  const charGrowthRateRenderTime = useRef(new Date().getTime())
+
   const [selectedScroll, setSelectedScroll] = useState(
     getInitialSelectedScroll()
   )
@@ -127,7 +129,7 @@ function ScrollCalculator() {
             <td className="p-2"></td>
           </tr>
 
-          <tr>
+          <tr key={charGrowthRateRenderTime.current}>
             <td className="p-2 text-sm font-bold" colSpan={2}>
               Character Growth Rate
             </td>
@@ -146,11 +148,7 @@ function ScrollCalculator() {
             <td className="text-center">
               <span
                 className="cursor-pointer"
-                onClick={() =>
-                  window.confirm(
-                    'Do you want to reset Character Growth Rate?'
-                  ) && setCharGrowthRate({})
-                }
+                onClick={handleOnResetCharacterGrowthRate}
               >
                 ✖
               </span>
@@ -244,6 +242,13 @@ function ScrollCalculator() {
 
         return result
       })
+    }
+  }
+
+  function handleOnResetCharacterGrowthRate() {
+    if (window.confirm('Do you want to reset Character Growth Rate?')) {
+      setCharGrowthRate({})
+      charGrowthRateRenderTime.current = new Date().getTime()
     }
   }
 }
