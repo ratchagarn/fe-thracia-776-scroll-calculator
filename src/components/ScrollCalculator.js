@@ -192,15 +192,15 @@ function ScrollCalculator() {
 
   function handleOnSelectScroll(scrollData) {
     return ({ target: checked }) => {
-      setSelectedScroll((state) => {
-        let result = { ...state }
+      const handleSetSelectedScroll = (prevState) => {
+        let result = { ...prevState }
 
-        if (checked && state[scrollData.name]) {
+        if (checked && prevState[scrollData.name]) {
           const newState = {}
 
-          for (const scrollName in state) {
+          for (const scrollName in prevState) {
             if (scrollName !== scrollData.name) {
-              newState[scrollName] = state[scrollName]
+              newState[scrollName] = prevState[scrollName]
             }
           }
 
@@ -211,7 +211,7 @@ function ScrollCalculator() {
           )
         } else if (checked) {
           result = {
-            ...state,
+            ...prevState,
             [scrollData.name]: scrollData,
           }
 
@@ -222,7 +222,9 @@ function ScrollCalculator() {
         }
 
         return result
-      })
+      }
+
+      setSelectedScroll(handleSetSelectedScroll)
     }
   }
 
@@ -338,5 +340,5 @@ function calculateCharGrowthRateResult(selectedScroll, charGrowthRate) {
 }
 
 function isNumber(v) {
-  return /^[0-9]+$/.test(v)
+  return /^-?[0-9]+$/.test(v)
 }
