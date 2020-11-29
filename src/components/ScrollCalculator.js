@@ -325,12 +325,12 @@ function calculateCharGrowthRateResult(selectedScroll, charGrowthRate) {
   })
 
   for (const scrollName in selectedScroll) {
-    const growthRate = selectedScroll[scrollName]
+    const scrollData = selectedScroll[scrollName]
 
-    for (const statName in growthRate) {
-      result[statName] += isNumber(growthRate[statName])
-        ? Number(growthRate[statName])
-        : 0
+    for (const key in scrollData) {
+      if (key !== 'name') {
+        result[key] += isNumber(scrollData[key]) ? Number(scrollData[key]) : 0
+      }
     }
   }
 
