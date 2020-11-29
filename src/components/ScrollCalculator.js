@@ -178,7 +178,7 @@ function ScrollCalculator() {
                       'font-bold': result !== base,
                     })}
                   >
-                    {result}
+                    {result}%
                   </span>
                 </td>
               )
