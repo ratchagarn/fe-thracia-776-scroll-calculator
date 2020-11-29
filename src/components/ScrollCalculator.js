@@ -47,7 +47,7 @@ function ScrollCalculator() {
       </h1>
       <hr />
 
-      <table className="mt-4 border-2 rounded-sm border-gray-100">
+      <table className="table-auto mt-4 rounded-sm border-2 border-gray-100">
         <caption>
           Selected scroll count:
           <span
@@ -57,11 +57,18 @@ function ScrollCalculator() {
             })}
           >
             {countSelectedScroll}/{MAXIMUM_SELECTED_SCROLL}
+            <a
+              href="#reset"
+              className="ml-4 text-sm text-blue-500 hover:underline"
+              onClick={handleAllReset}
+            >
+              [Reset]
+            </a>
           </span>
         </caption>
         <thead>
           <tr className="bg-gray-200">
-            <th className="p-2 text-left" colSpan={2} style={{ width: 200 }}>
+            <th className="p-2 text-left" colSpan={2} style={{ width: 240 }}>
               Scroll Name
             </th>
             {STAT_LIST.map((name) => (
@@ -100,7 +107,7 @@ function ScrollCalculator() {
                         'bg-green-600 text-white font-bold': growthRate > 10,
                       })}
                     >
-                      {growthRate}
+                      {growthRate === 0 ? '-' : `${growthRate}%`}
                     </td>
                   )
                 })}
@@ -131,7 +138,7 @@ function ScrollCalculator() {
 
           <tr key={charGrowthRateRenderTime.current}>
             <td className="p-2 text-sm font-bold" colSpan={2}>
-              Character Growth Rate
+              Character Growth Rate (%)
             </td>
             {STAT_LIST.map((name) => (
               <td key={name} className="py-2">
@@ -245,11 +252,25 @@ function ScrollCalculator() {
     }
   }
 
+  function handleAllReset() {
+    if (window.confirm('Do you want to reaet all?')) {
+      window.localStorage.clear()
+      setSelectedScroll(getInitialSelectedScroll())
+      setCharGrowthRate(getInitialCharacterGrowthRate())
+      doReRenderCharGrowthRate()
+    }
+  }
+
   function handleOnResetCharacterGrowthRate() {
     if (window.confirm('Do you want to reset Character Growth Rate?')) {
-      setCharGrowthRate({})
-      charGrowthRateRenderTime.current = new Date().getTime()
+      window.localStorage.removeItem(storageName.charGrowthRate)
+      setCharGrowthRate(getInitialCharacterGrowthRate())
+      doReRenderCharGrowthRate()
     }
+  }
+
+  function doReRenderCharGrowthRate() {
+    charGrowthRateRenderTime.current = new Date().getTime()
   }
 }
 
